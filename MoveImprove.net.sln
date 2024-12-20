@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveImprove.net", "MoveImprove.net\MoveImprove.net.csproj", "{9AB25F00-0C5E-443C-8CD4-1D82A22CB74D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AB25F00-0C5E-443C-8CD4-1D82A22CB74D}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB25F00-0C5E-443C-8CD4-1D82A22CB74D}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{9AB25F00-0C5E-443C-8CD4-1D82A22CB74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB25F00-0C5E-443C-8CD4-1D82A22CB74D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {248E539B-AD52-402C-91F1-9141447AC68B}
+	EndGlobalSection
+EndGlobal
