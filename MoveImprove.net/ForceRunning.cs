@@ -10,7 +10,9 @@ namespace MoveImprove.net
         public static void Tick()
         {
             GTA.Native.Function.Call("REQUEST_ANIMS", "move_fast");
-            animone = GTA.Native.Function.Call<string>("GET_ANIM_GROUP_FROM_CHAR", Game.LocalPlayer.Character);
+            if (Main.SprintToVehicles || Main.ForceRun)
+                animone = GTA.Native.Function.Call<string>("GET_ANIM_GROUP_FROM_CHAR", Game.LocalPlayer.Character);
+
             if (Main.SprintToVehicles == true && Game.isGameKeyPressed(GameKey.EnterCar) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight) && Game.LocalPlayer.Character.isAlive && !Game.LocalPlayer.Character.isRagdoll && !Game.LocalPlayer.Character.isSittingInVehicle())
             {
                 if (!animone.Contains("move_fast"))

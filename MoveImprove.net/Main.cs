@@ -35,10 +35,9 @@ namespace MoveImprove.net
             FasterJackingScript.Tick();
             FastAnims.Tick();
             AdvancedClimbing.Tick();
+            ForceRunning.Tick();
             if (Alt180Turn == true)
-            {
-                ForceRunning.Tick();
-            }
+                Alt180TurnScript.Tick();
         }
         public void LoadINI()
         {
