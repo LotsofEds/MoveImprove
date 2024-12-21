@@ -35,7 +35,7 @@ namespace MoveImprove.net
                 }
             }
 
-            if (animone!= null&&animone.Contains("move_fast") && ((!Game.isGameKeyPressed(GameKey.EnterCar) || Game.isGameKeyPressed(GameKey.MoveForward) || Game.isGameKeyPressed(GameKey.MoveBackward) || Game.isGameKeyPressed(GameKey.MoveLeft) || Game.isGameKeyPressed(GameKey.MoveRight) || GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_fast", "sprint")) && !Game.isGameKeyPressed(GameKey.Sprint)))
+            if (animone!= null && ((!Game.isGameKeyPressed(GameKey.EnterCar) || Game.isGameKeyPressed(GameKey.MoveForward) || Game.isGameKeyPressed(GameKey.MoveBackward) || Game.isGameKeyPressed(GameKey.MoveLeft) || Game.isGameKeyPressed(GameKey.MoveRight) || GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_fast", "sprint")) && !Game.isGameKeyPressed(GameKey.Sprint)))
             {
                 GTA.Native.Function.Call("SET_ANIM_GROUP_FOR_CHAR", Game.LocalPlayer.Character, "move_player");
             }

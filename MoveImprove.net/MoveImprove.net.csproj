@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AdvancedClimbing.cs" />
     <Compile Include="Alt180TurnScript.cs" />
+    <Compile Include="CounterStrikes.cs" />
     <Compile Include="FastAnims.cs" />
     <Compile Include="FasterJackingScript.cs" />
     <Compile Include="ForceRunning.cs" />

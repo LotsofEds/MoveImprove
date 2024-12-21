@@ -4,26 +4,96 @@ using GTA;
 
 namespace MoveImprove.net
 {
-    internal class Alt180TurnScript
+    internal class Alt180TurnScript : Script
     {
-        private static bool CheckDateTime;
-        private static DateTime currentDateTime;
-        public static void Tick()
+        private static bool Alt180Turn = Main.Alt180Turn;
+
+        public Alt180TurnScript()
         {
-            if (CheckDateTime == false)
+            if (Alt180Turn == true)
             {
-                currentDateTime = DateTime.Now;
-                CheckDateTime = true;
+                this.Interval = 50;
+                Tick += TurnTick;
+            }
+        }
+        public static void TurnTick(object sender, EventArgs e)
+        {
+            GTA.Native.Function.Call("REQUEST_ANIMS", "move_player");
+            GTA.Native.Pointer turnpntr = 0.0;
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_r"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_r", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
+                    {
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                        Game.LocalPlayer.Character.Task.ClearAllImmediately();
+                    }
+                }
+
+                if (turnpntr > 0.5 && turnpntr < 0.7)
+                {
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_r", 0.87);
+                    if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                    {
+                        GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                        Game.WaitInCurrentScript(200);
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                            Game.LocalPlayer.Character.Task.ClearAllImmediately();
+                        }
+                    }
+                }
+            }
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_l"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_l", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
+                    {
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                        Game.LocalPlayer.Character.Task.ClearAllImmediately();
+                    }
+                }
+                if (turnpntr > 0.57 && turnpntr < 0.7)
+                {
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_l", 0.84);
+                    if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                    {
+                        GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                        Game.WaitInCurrentScript(200);
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                            Game.LocalPlayer.Character.Task.ClearAllImmediately();
+                        }
+                    }
+                }
             }
 
-            if (DateTime.Now.Subtract(currentDateTime).TotalMilliseconds > 50.0)
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "run_turn_180_r"))
             {
-                CheckDateTime = false;
-                GTA.Native.Function.Call("REQUEST_ANIMS", "move_player");
-                GTA.Native.Pointer turnpntr = 0.0;
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_r"))
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_r", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_r", turnpntr);
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
+                    {
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                        Game.LocalPlayer.Character.Task.ClearAllImmediately();
+                    }
+                }
+                if (turnpntr > 0.5 && turnpntr < 0.7)
+                {
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_r", 0.87);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
@@ -34,25 +104,25 @@ namespace MoveImprove.net
                             Game.LocalPlayer.Character.Task.ClearAllImmediately();
                         }
                     }
+                }
+            }
 
-                    if (turnpntr > 0.5 && turnpntr < 0.7)
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "run_turn_180_l"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_l", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_r", 0.87);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                        {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                                Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                            }
-                        }
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                        Game.LocalPlayer.Character.Task.ClearAllImmediately();
                     }
                 }
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_l"))
+                if (turnpntr > 0.57 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_l", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_l", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
@@ -63,25 +133,25 @@ namespace MoveImprove.net
                             Game.LocalPlayer.Character.Task.ClearAllImmediately();
                         }
                     }
-                    if (turnpntr > 0.57 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "run_turn_180"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "sprint_turn_180_l", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                        {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                                Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                            }
-                        }
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
+                        Game.LocalPlayer.Character.Task.ClearAllImmediately();
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "run_turn_180_r"))
+                if (turnpntr > 0.65 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_r", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
@@ -92,82 +162,35 @@ namespace MoveImprove.net
                             Game.LocalPlayer.Character.Task.ClearAllImmediately();
                         }
                     }
-                    if (turnpntr > 0.5 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r"))
+            {
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_r", 0.87);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                                Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "run_turn_180_l"))
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r", turnpntr);
+                if (turnpntr > 0.5 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_l", turnpntr);
-                    if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                    {
-                        GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                        Game.WaitInCurrentScript(200);
-                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                        {
-                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                            Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                        }
-                    }
-                    if (turnpntr > 0.57 && turnpntr < 0.7)
-                    {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180_l", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                        {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                                Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                            }
-                        }
-                    }
-                }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "run_turn_180"))
-                {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180", turnpntr);
-                    if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                    {
-                        GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                        Game.WaitInCurrentScript(200);
-                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                        {
-                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                            Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                        }
-                    }
-                    if (turnpntr > 0.65 && turnpntr < 0.7)
-                    {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "run_turn_180", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                        {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_player", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_player", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_player", "idle", 1.0);
-                                Game.LocalPlayer.Character.Task.ClearAllImmediately();
-                            }
-                        }
-                    }
-                }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r"))
-                {
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r", 0.87);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
@@ -188,36 +211,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r", turnpntr);
-                    if (turnpntr > 0.5 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r", 0.87);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_r", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l"))
+                if (turnpntr > 0.57 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
@@ -238,34 +260,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    if (turnpntr > 0.57 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r"))
+            {
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sprint_turn_180_l", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "sstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r"))
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r", turnpntr);
+                if (turnpntr > 0.5 && turnpntr < 0.7)
                 {
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r", 0.87);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
@@ -286,36 +309,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r", turnpntr);
-                    if (turnpntr > 0.5 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r", 0.87);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_r", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l"))
+                if (turnpntr > 0.57 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
@@ -336,35 +358,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    if (turnpntr > 0.57 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "run_turn_180"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180_l", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "run_turn_180"))
+                if (turnpntr > 0.65 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
@@ -385,35 +407,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    if (turnpntr > 0.65 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rifle", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "run_turn_180", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "rstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rifle", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rifle", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r"))
+                if (turnpntr > 0.5 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r", 0.87);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
@@ -434,35 +456,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    if (turnpntr > 0.5 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r", 0.87);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_r", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l"))
+                if (turnpntr > 0.57 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
@@ -483,35 +505,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    if (turnpntr > 0.57 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sprint_turn_180_l", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "sstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r"))
+                if (turnpntr > 0.5 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r", 0.87);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
@@ -532,35 +554,35 @@ namespace MoveImprove.net
                             }
                         }
                     }
-                    if (turnpntr > 0.5 && turnpntr < 0.7)
+                }
+            }
+
+            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l"))
+            {
+                GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l", turnpntr);
+                if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                {
+                    GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
+                    Game.WaitInCurrentScript(200);
+                    if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
                     {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r", 0.87);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l", 1.0);
+                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
+                        while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                         {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_r", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
-                                }
-                            }
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_l", 1.0);
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_r", 1.0);
+                            Game.WaitInCurrentScript(0);
+                        }
+                        if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
+                        {
+                            GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
                         }
                     }
                 }
-
-                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l"))
+                if (turnpntr > 0.57 && turnpntr < 0.7)
                 {
-                    GTA.Native.Function.Call("GET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l", turnpntr);
+                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l", 0.84);
                     if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
                     {
                         GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
@@ -578,30 +600,6 @@ namespace MoveImprove.net
                             if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
                             {
                                 GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
-                            }
-                        }
-                    }
-                    if (turnpntr > 0.57 && turnpntr < 0.7)
-                    {
-                        GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l", 0.84);
-                        if (!Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                        {
-                            GTA.Native.Function.Call("TASK_PLAY_ANIM_NON_INTERRUPTABLE", Game.LocalPlayer.Character, "idle", "move_rpg", 5.00, 0, 1, 0, 0, -1);
-                            Game.WaitInCurrentScript(200);
-                            if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                            {
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "run_turn_180_l", 1.0);
-                                GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 0.95);
-                                while (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle") && !Game.isGameKeyPressed(GameKey.Aim) && !Game.isGameKeyPressed(GameKey.MoveForward) && !Game.isGameKeyPressed(GameKey.MoveBackward) && !Game.isGameKeyPressed(GameKey.MoveLeft) && !Game.isGameKeyPressed(GameKey.MoveRight))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_l", 1.0);
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "rstop_r", 1.0);
-                                    Game.WaitInCurrentScript(0);
-                                }
-                                if (GTA.Native.Function.Call<bool>("IS_CHAR_PLAYING_ANIM", Game.LocalPlayer.Character, "move_rpg", "idle"))
-                                {
-                                    GTA.Native.Function.Call("SET_CHAR_ANIM_CURRENT_TIME", Game.LocalPlayer.Character, "move_rpg", "idle", 1.0);
-                                }
                             }
                         }
                     }
